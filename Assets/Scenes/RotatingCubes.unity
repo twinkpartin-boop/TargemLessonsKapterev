@@ -246,15 +246,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4396204193870838984, guid: 96c46389701eeef4da32a40bc1c7d66a, type: 3}
       propertyPath: amount
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4396204193870838984, guid: 96c46389701eeef4da32a40bc1c7d66a, type: 3}
       propertyPath: radius
-      value: 250
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 4396204193870838984, guid: 96c46389701eeef4da32a40bc1c7d66a, type: 3}
       propertyPath: distance
-      value: 2000
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4396204193870838984, guid: 96c46389701eeef4da32a40bc1c7d66a, type: 3}
       propertyPath: RotatingObject

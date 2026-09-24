@@ -12,6 +12,10 @@ public class RotateCenter : MonoBehaviour
     private float speed;
     private float angleDistance;
     private GameObject[] objects;
+    private float radiusSaved;
+    private float distanceSaved;
+    private bool change;
+    private uint amountSaved;
 
     void Awake()
     {
@@ -28,17 +32,51 @@ public class RotateCenter : MonoBehaviour
             newObj.transform.localPosition = new Vector3(x, 0, z);
             objects[i] = newObj;
         }
+        change = false;
+        amountSaved = amount;
+        distanceSaved = distance;
+        radiusSaved = radius;
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < amount; i++)
+        CheckChange();
+        for (int i = 0; i < amountSaved; i++)
         {
             GameObject obj = objects[i];
             float newx = (obj.transform.localPosition.x)*Mathf.Cos(speed) - (obj.transform.localPosition.z)*Mathf.Sin(speed);
             float newz = (obj.transform.localPosition.x) * Mathf.Sin(speed) + (obj.transform.localPosition.z) * Mathf.Cos(speed);
             obj.transform.localPosition = new Vector3 (newx, 0, newz);
         }
+    }
+
+    private void CheckChange()
+    {
+        if (radiusSaved != radius)
+        {
+            change = true;
+            if (radius < 0) radius = 0;
+            radiusSaved = radius;
+        }
+        if ( distanceSaved != distance)
+        {
+            change = true;
+            if (distance < 0) distance = 0;
+            else { distance = Mathf.Min(distance, 2 * radius * (Mathf.PI) / ((float)amount)); }
+            distanceSaved = distance;
+        }
+        if (change)
+        {
+            angleDistance = distance / radius;
+            for (int i = 0; i < amountSaved; i++)
+            {
+                float x = radius * Mathf.Sin(i * angleDistance);
+                float z = radius * Mathf.Cos(i * angleDistance);
+                objects[i].transform.localPosition = new Vector3(x, 0, z);
+            }
+            change = false;
+        }
+        else return;
     }
 }
