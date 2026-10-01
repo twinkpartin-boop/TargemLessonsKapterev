@@ -17,25 +17,33 @@ public class RotateCenter : MonoBehaviour
     private bool change;
     private uint amountSaved;
 
+    private GameObject curobj;
+    private float newx;
+    private float newz;
+
     void Awake()
     {
         if (radius < 0) radius = 0;
         if (distance < 0) distance = 0;
-        else { distance = Mathf.Min(distance, 2 * radius * (Mathf.PI) / ((float)amount)); }
+        else 
+        { 
+            distance = Mathf.Min(distance, 2 * radius * (Mathf.PI) / ((float)amount)); 
+        }
         angleDistance = distance / radius;
         objects = new GameObject[amount];
         for (int i = 0; i < amount; i++)
         {
-            GameObject newObj = Instantiate(RotatingObject, transform);
-            float x = radius * Mathf.Sin(i * angleDistance);
-            float z = radius * Mathf.Cos(i * angleDistance);
-            newObj.transform.localPosition = new Vector3(x, 0, z);
-            objects[i] = newObj;
+            curobj = Instantiate(RotatingObject, transform);
+            newx = radius * Mathf.Sin(i * angleDistance);
+            newz = radius * Mathf.Cos(i * angleDistance);
+            curobj.transform.localPosition = new Vector3(newx, 0, newz);
+            objects[i] = curobj;
         }
         change = false;
         amountSaved = amount;
         distanceSaved = distance;
         radiusSaved = radius;
+    
     }
 
     // Update is called once per frame
@@ -44,10 +52,10 @@ public class RotateCenter : MonoBehaviour
         CheckChange();
         for (int i = 0; i < amountSaved; i++)
         {
-            GameObject obj = objects[i];
-            float newx = (obj.transform.localPosition.x)*Mathf.Cos(speed) - (obj.transform.localPosition.z)*Mathf.Sin(speed);
-            float newz = (obj.transform.localPosition.x) * Mathf.Sin(speed) + (obj.transform.localPosition.z) * Mathf.Cos(speed);
-            obj.transform.localPosition = new Vector3 (newx, 0, newz);
+            curobj = objects[i];
+            newx = (curobj.transform.localPosition.x)*Mathf.Cos(speed) - (curobj.transform.localPosition.z)*Mathf.Sin(speed);
+            newz = (curobj.transform.localPosition.x) * Mathf.Sin(speed) + (curobj.transform.localPosition.z) * Mathf.Cos(speed);
+            curobj.transform.localPosition = new Vector3 (newx, 0, newz);
         }
     }
 
@@ -71,9 +79,9 @@ public class RotateCenter : MonoBehaviour
             angleDistance = distance / radius;
             for (int i = 0; i < amountSaved; i++)
             {
-                float x = radius * Mathf.Sin(i * angleDistance);
-                float z = radius * Mathf.Cos(i * angleDistance);
-                objects[i].transform.localPosition = new Vector3(x, 0, z);
+                newx = radius * Mathf.Sin(i * angleDistance);
+                newz = radius * Mathf.Cos(i * angleDistance);
+                objects[i].transform.localPosition = new Vector3(newx, 0, newz);
             }
             change = false;
         }
