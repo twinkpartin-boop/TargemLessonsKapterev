@@ -5,9 +5,15 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private List<Dice> Dices;
+    private Score Tablescore;
     void Awake()
     {
         Dices = new List<Dice>(FindObjectsByType<Dice>(FindObjectsSortMode.None));
+        Tablescore = FindAnyObjectByType<Score>();
+        foreach (Dice dice in Dices)
+        {
+            dice.TableScore = Tablescore;
+        }
     }
 
     // Update is called once per frame
@@ -22,5 +28,6 @@ public class Player : MonoBehaviour
         {
             dice.Roll();
         }
+        Tablescore.UpdateScore(0);
     }
 }
