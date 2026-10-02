@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     {
         Dices = new List<Dice>(FindObjectsByType<Dice>(FindObjectsSortMode.None));
         Tablescore = FindAnyObjectByType<Score>();
-        foreach (Dice dice in Dices)
+        foreach (var dice in Dices)
         {
             dice.TableScore = Tablescore;
         }
