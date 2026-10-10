@@ -13,6 +13,10 @@ public class Score : MonoBehaviour
         {
             text = GetComponent<TMP_Text>();
         }    
+        if (Dices == null || Dices.Count == 0)
+        {
+            Dices = new List<Dice>(FindObjectsByType<Dice>(FindObjectsSortMode.None));
+        }
         text.text = "0";
     }
 

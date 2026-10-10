@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         playerScore = 0;
-        if (Dices.Count == 0)
+        if (Dices is null || Dices.Count == 0)
         {
             Dices = new List<Dice>(FindObjectsByType<Dice>(FindObjectsSortMode.None));
         }
