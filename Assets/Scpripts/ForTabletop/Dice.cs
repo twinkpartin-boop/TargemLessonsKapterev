@@ -14,22 +14,13 @@ public class Dice : MonoBehaviour
     [SerializeField] private Rigidbody Rigidbody;
     [SerializeField] private List<Face> faces;
     [SerializeField] private float checkInterval;
-    private Score Tablescore;
     private uint Dicescore;
-    private bool isRolled;
     private float mass;
     private Coroutine _waitRoutine;
 
     public uint Power { 
         get { return power; }
     }
-
-    public Score TableScore {
-        get { return Tablescore; }
-        set { Tablescore = value; }
-    }
-
-    public bool IsRolled { get => isRolled; }
 
     void Awake()
     {        
@@ -46,7 +37,6 @@ public class Dice : MonoBehaviour
             face.ParentDice = this;
         }
         if (checkInterval == default(float)) checkInterval = 0.1f;
-        isRolled = false;
         mass = Rigidbody.mass;
     }
 
