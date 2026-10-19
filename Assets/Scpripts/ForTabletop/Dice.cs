@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using static UnityEngine.Rendering.DebugUI;
 [RequireComponent(typeof(Rigidbody))]
 public class Dice : MonoBehaviour

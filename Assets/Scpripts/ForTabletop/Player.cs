@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class Player : MonoBehaviour
     public uint PlayerScore { get { return playerScore; } set { playerScore = value; } }
     public uint DiceRolled {  get { return diceRolled; } }
     public bool IsReadoToCount { get { return Dices.Count == diceRolled; } }
+
+    public List<Dice> Dices_ {  get { return Dices; } }
     void Awake()
     {
         playerScore = 0;
@@ -26,6 +29,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Instance.IsReadoToCount)
+        {
+            Rolled?.Invoke();
+        }
     }
 
     public void OnRoll() // От InputSystem
@@ -47,5 +54,14 @@ public class Player : MonoBehaviour
     {
         diceRolled = 0;
         playerScore = 0;
+        NewRoll?.Invoke();
     }
+
+    public void AddDice(Dice dice)
+    {
+        Dices.Add(dice);
+    }
+
+    public static event Action Rolled;
+    public static event Action NewRoll;
 }

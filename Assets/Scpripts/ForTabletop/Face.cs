@@ -19,6 +19,6 @@ public class Face : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        parentDice.UpdateScore(parentDice.Power + 1 - points);
+        if (other.CompareTag("Desk")) parentDice.UpdateScore(parentDice.Power + 1 - points);
     }
 }

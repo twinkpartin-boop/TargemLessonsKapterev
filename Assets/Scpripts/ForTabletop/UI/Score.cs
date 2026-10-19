@@ -5,7 +5,7 @@ using UnityEngine;
 public class Score : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
-    [SerializeField] private List<Dice> Dices;
+    private List<Dice> Dices;
 
     void Awake()
     {
@@ -13,25 +13,26 @@ public class Score : MonoBehaviour
         {
             text = GetComponent<TMP_Text>();
         }    
-        if (Dices == null || Dices.Count == 0)
-        {
-            Dices = new List<Dice>(FindObjectsByType<Dice>(FindObjectsSortMode.None));
-        }
         text.text = "0";
+        Player.NewRoll += UpdateScore;
+        Player.Rolled += UpdateScore;
+        NewRoundButton.NewRoundEvent += UpdateScore;
+    }
+
+    private void Start()
+    {
+        Dices = Player.Instance.Dices_;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Player.Instance.IsReadoToCount || Player.Instance.DiceRolled == 0)
-        {
-            UpdateScore(Player.Instance.PlayerScore);
-        }
+
     }
 
-    public void UpdateScore(uint newScore)
+    public void UpdateScore()
     {
-        text.text = newScore.ToString();
+        text.text = Player.Instance.PlayerScore.ToString();
     }
 
 
