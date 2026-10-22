@@ -1,22 +1,27 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
-using UiButton = UnityEngine.UI.Button;
-[RequireComponent(typeof(UiButton))]
+[RequireComponent(typeof(Button))]
 public class NewRoundButton : MonoBehaviour
 {
-    [SerializeField] private UiButton button;
-    void Awake()
+    [SerializeField] private Button button;
+    private void Awake()
     {
         button.onClick.AddListener(NewRound);
-        Player.Rolled += Activate;
-        Player.NewRoll += Deactivate;
+        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        ModelEvents.FinishRoll += Activate;
+        ModelEvents.NewRoll += Deactivate;
+    }
+
+    private void OnDisable()
+    {
+        ModelEvents.FinishRoll -= Activate;
+        ModelEvents.NewRoll -= Deactivate;
     }
 
     private void NewRound()
@@ -27,7 +32,7 @@ public class NewRoundButton : MonoBehaviour
         }
         Player.Instance.Dices_.Clear();
         Player.Instance.PlayerScore = 0;
-        NewRoundEvent?.Invoke();
+        UIEvents.RaiseNewRound();
     }
 
     private void Deactivate()
@@ -40,5 +45,4 @@ public class NewRoundButton : MonoBehaviour
         button.interactable = true;
     }
 
-    public static event Action NewRoundEvent;
 }

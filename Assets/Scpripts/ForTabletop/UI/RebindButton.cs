@@ -6,30 +6,23 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 
-using UiButton = UnityEngine.UI.Button; // Я случайно назвал кнопку ребинда именем класса для кнопки в юнити и теперь не знаю как переименовать, не удаляя файл скрипта и переписывая код. Потому использовал синоним
-[RequireComponent(typeof(UiButton))]
-public class Button : MonoBehaviour
+[RequireComponent(typeof(Button))]
+public class RebindButton : MonoBehaviour
 {
     [SerializeField] private InputActionReference inputAction;
     [SerializeField] private TMP_Text keyname;
-    [SerializeField] private UiButton button;
-    void Awake()
+    [SerializeField] private Button button;
+    private void Awake()
     {
         if (keyname is null)
         {
-            keyname = GetComponentsInChildren<TMP_Text>().FirstOrDefault(txt => txt.CompareTag("GameController"));
+            Debug.LogError("Нет текста в RebindButton");
         }      
         if (inputAction is null)
         {
-            Debug.LogError("Нет ссылки на действие");
+            Debug.LogError("Нет ссылки на действие в RebindButton");
         }
         button.onClick.AddListener(Rebind);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Rebind()

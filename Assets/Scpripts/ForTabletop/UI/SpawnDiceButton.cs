@@ -1,26 +1,24 @@
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UiButton = UnityEngine.UI.Button;
-[RequireComponent (typeof(UiButton))]
+
+[RequireComponent (typeof(Button))]
 public class SpawnDiceButton : MonoBehaviour
 {
-    // Тут бы сериализованный словарь, но мне пока лень
-    [SerializeField] private UiButton button;
-    [SerializeField] private List<Dice> dicesPrefabs;
+    [SerializeField] private Button button;
+    [SerializeField] private FunctionalScripts prefabs;
     [SerializeField] private TMP_Text diceName;
     [SerializeField] private float spawnDelay;
-    [SerializeField] private WinCondtion condtion;
     private Coroutine spawnRoutine;
-    private uint amountOfPowers;
     private Dictionary<uint, Dice> DicesByPower;
     private uint curPowerChosen;
     private uint amount;
-    private int cursorPos; // от 1 до dicesPrefabs.Count
+    private int cursorPos; // from 1 to dicesPrefabs.Count
 
     public uint CurPowerChosen {  
         get { return curPowerChosen; } 
@@ -31,13 +29,12 @@ public class SpawnDiceButton : MonoBehaviour
     }
     public uint Amount { set { amount = value; }  }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    private void Awake()
     {
-        if (button == null) button = GetComponent<UiButton>();
         button.onClick.AddListener(SpawnDice);
-        if (diceName == null) diceName = GetComponentInChildren<TMP_Text>();
+        if (diceName == null) Debug.LogError("Text not found on SpawnDiceButton");
         if (spawnDelay == default(float)) spawnDelay = 0.05f;
+        if (prefabs == null) Debug.LogError("No prefabs of dices in SpawnDiceButton");
         curPowerChosen = 6;
         amount = 1;
         cursorPos = 2;
@@ -47,20 +44,30 @@ public class SpawnDiceButton : MonoBehaviour
     private void Start()
     {
         DicesByPower = new Dictionary<uint, Dice>();
-        foreach (var dice in dicesPrefabs)
+        foreach (var dice in prefabs.Prefabs)
         {
             DicesByPower[dice.Power] = dice;
         }
-        dicesPrefabs.OrderBy(dice => dice.Power).ToList();
-        Player.NewRoll += Deactivate;
-        Player.Rolled += Activate;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        prefabs.Prefabs.OrderBy(dice => dice.Power).ToList();
         
     }
+
+    private void OnEnable()
+    {
+        ModelEvents.NewRoll += Deactivate;
+        ModelEvents.FinishRoll += Activate;
+        UIEvents.ChangeAmount += ChangeAmount;
+        UIEvents.TypeChanged += ChangeType;
+    }
+
+    private void OnDisable()
+    {
+        ModelEvents.NewRoll -= Deactivate;
+        ModelEvents.FinishRoll -= Activate;
+        UIEvents.ChangeAmount -= ChangeAmount;
+        UIEvents.TypeChanged -= ChangeType;
+    }
+
 
     private void SpawnDice()
     {
@@ -71,8 +78,7 @@ public class SpawnDiceButton : MonoBehaviour
     private IEnumerator SpawnDiceRoutine()
     {
         var prefab = DicesByPower[curPowerChosen];
-        condtion.CountPossibles(curPowerChosen, amount);
-        condtion.HideResult();
+        UIEvents.RaiseDiceSpawn(curPowerChosen, amount);
         var wait = new WaitForSeconds(spawnDelay);
         for (var i = 0; i < amount; i++)
         {
@@ -85,9 +91,9 @@ public class SpawnDiceButton : MonoBehaviour
     public void ChangeType(navType nav)
     {
         cursorPos += (int)nav;
-        if (cursorPos <= 0) cursorPos = dicesPrefabs.Count;
-        else if (cursorPos > dicesPrefabs.Count) cursorPos = 1;
-        curPowerChosen = dicesPrefabs[cursorPos-1].Power;
+        if (cursorPos <= 0) cursorPos = prefabs.Prefabs.Count;
+        else if (cursorPos > prefabs.Prefabs.Count) cursorPos = 1;
+        curPowerChosen = prefabs.Prefabs[cursorPos-1].Power;
         diceName.text = "D"+curPowerChosen.ToString();
     }
 
@@ -98,5 +104,10 @@ public class SpawnDiceButton : MonoBehaviour
     private void Activate()
     {
         button.interactable = true;
+    }
+
+    private void ChangeAmount(uint amount)
+    {
+        Amount = amount;
     }
 }

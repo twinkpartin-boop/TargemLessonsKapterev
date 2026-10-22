@@ -166,10 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fa127beb4264548a4ba8ef15907a76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dice
-  maxFy: 500
-  maxRx: 50
-  maxRy: 50
-  maxRz: 50
+  throwPowerData: {fileID: 11400000, guid: bef3f18bc6f46b94489cb6fb659ead5b, type: 2}
   power: 12
   Rigidbody: {fileID: 1227954218069069576}
   faces:

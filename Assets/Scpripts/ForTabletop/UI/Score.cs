@@ -5,29 +5,24 @@ using UnityEngine;
 public class Score : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
-    private List<Dice> Dices;
 
-    void Awake()
+    private void Awake()
     {
-        if (text == null)
-        {
-            text = GetComponent<TMP_Text>();
-        }    
         text.text = "0";
-        Player.NewRoll += UpdateScore;
-        Player.Rolled += UpdateScore;
-        NewRoundButton.NewRoundEvent += UpdateScore;
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        Dices = Player.Instance.Dices_;
+        ModelEvents.FinishRoll += UpdateScore;
+        ModelEvents.NewRoll += UpdateScore;
+        UIEvents.NewRound += UpdateScore;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-
+        ModelEvents.FinishRoll -= UpdateScore;
+        ModelEvents.NewRoll -= UpdateScore;
+        UIEvents.NewRound -= UpdateScore;
     }
 
     public void UpdateScore()

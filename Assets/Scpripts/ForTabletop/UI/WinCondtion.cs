@@ -20,26 +20,33 @@ public class WinCondtion : MonoBehaviour
     public int MaxPossible { set { maxPossible = value; } }
 
 
-    void Start()
+    private void Start()
     {
-        if (winText == null) winText = GetComponentInChildren<TMP_Text>();
-        if (loseText == null) winText = GetComponentInChildren<TMP_Text>();
+        if (winText == null) Debug.LogError("No text for win condtion in WinCondition panel");
+        if (loseText == null) Debug.LogError("No text for lose condtion in WinCondition panel");
         if (Player.Instance.Dices_.Count != 0)
         {
             minPossible = Player.Instance.Dices_.Count;
             maxPossible = (int)Player.Instance.Dices_.Sum(dice => dice.Power);
         }
-        UpdateCondition();
-        HideResult();
-        Player.Rolled += ShowResult;
-        Player.NewRoll += HideResult;
-        NewRoundButton.NewRoundEvent += OffCondtions;
+        UpdateCondition();      
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        ModelEvents.FinishRoll += ShowResult;
+        ModelEvents.NewRoll += HideResult;
+        UIEvents.DiceSpawn += CountPossibles;
+        UIEvents.NewRound += OffCondtions;
+    }
+
+    private void OnDisable()
+    {
+        ModelEvents.FinishRoll -= ShowResult;
+        ModelEvents.NewRoll -= HideResult;
+        UIEvents.DiceSpawn -= CountPossibles;
+        UIEvents.NewRound -= OffCondtions;
+
     }
 
     private void UpdateCondition()
@@ -48,6 +55,7 @@ public class WinCondtion : MonoBehaviour
         loseText.text = "Поражение = " + loseCondtion.ToString();
         winCondtion = Random.Range(loseCondtion + 1, maxPossible + 1);
         winText.text = "Победа = " + winCondtion.ToString();
+        HideResult();
     }
 
     public void CountPossibles(int dicePower, int amount)

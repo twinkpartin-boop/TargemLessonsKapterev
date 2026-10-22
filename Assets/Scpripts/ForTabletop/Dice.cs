@@ -2,15 +2,10 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using static UnityEngine.Rendering.DebugUI;
 [RequireComponent(typeof(Rigidbody))]
 public class Dice : MonoBehaviour
 {
-    [SerializeField] private float maxFy;
-    [SerializeField] private float maxRx;
-    [SerializeField] private float maxRy;
-    [SerializeField] private float maxRz;
+    [SerializeField] private ThrowPower throwPowerData;
     [SerializeField] private uint power;
     [SerializeField] private Rigidbody Rigidbody;
     [SerializeField] private List<Face> faces;
@@ -23,15 +18,12 @@ public class Dice : MonoBehaviour
         get { return power; }
     }
 
-    void Awake()
-    {        
-        if (Rigidbody == null )
+    private void Awake()
+    {
+        if (power < 4) Debug.LogError("Check power in Dice one more time");
+        if (faces.Count != power || faces.Count==0)
         {
-            Rigidbody = GetComponent<Rigidbody>();
-        }   
-        if (faces.Count < power)
-        {
-            faces = new List<Face>(GetComponentsInChildren<Face>());
+            Debug.LogError($"Incorrect number of faces in Dice D{power}");
         }
         foreach (var face in faces)
         {
@@ -41,15 +33,10 @@ public class Dice : MonoBehaviour
         mass = Rigidbody.mass;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void Roll()
     {
-        Rigidbody.AddForce(new Vector3(Random.Range(1, mass * 10), Random.Range(mass * 10, maxFy * mass), Random.Range(1, mass * 10)), ForceMode.Force);
-        Rigidbody.AddTorque(new Vector3(Random.Range(mass, maxRx * mass), Random.Range(mass, maxRy * mass), Random.Range(mass, maxRz * mass)), ForceMode.Force);
+        Rigidbody.AddForce(new Vector3(Random.Range(1, mass * 10), Random.Range(mass * 10, throwPowerData.MaxFy * mass), Random.Range(1, mass * 10)), ForceMode.Force);
+        Rigidbody.AddTorque(new Vector3(Random.Range(mass, throwPowerData.MaxRx * mass), Random.Range(mass, throwPowerData.MaxRy * mass), Random.Range(mass, throwPowerData.MaxRz * mass)), ForceMode.Force);
 
 
         if (_waitRoutine != null) StopCoroutine(_waitRoutine);

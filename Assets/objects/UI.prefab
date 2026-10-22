@@ -832,7 +832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a782ff48d8aad8a41bf0545035f539f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavArrow
-  spawnButton: {fileID: 3153835186023739422}
   arrowButton: {fileID: 8934884292415181490}
   side: 1
 --- !u!1 &2899619332644623144
@@ -1614,7 +1613,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a782ff48d8aad8a41bf0545035f539f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NavArrow
-  spawnButton: {fileID: 3153835186023739422}
   arrowButton: {fileID: 3761990922308370842}
   side: -1
 --- !u!1 &5662472830290341215
@@ -1809,7 +1807,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiceAmountInput
   inputField: {fileID: 1714062069856274961}
-  spawnButton: {fileID: 3153835186023739422}
 --- !u!1 &5785093041943408482
 GameObject:
   m_ObjectHideFlags: 0
@@ -2406,14 +2403,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnDiceButton
   button: {fileID: 5580491757711580221}
-  dicesPrefabs:
-  - {fileID: 5171484109194321408, guid: a7045b2d36c5fb24c89fb16501276235, type: 3}
-  - {fileID: 5674016411750864829, guid: 48d2371925e967c489227195f342f232, type: 3}
-  - {fileID: 3592535956652307143, guid: 7e747e3a07c4f934b8d890c6ee82653a, type: 3}
-  - {fileID: -2134279049025615899, guid: dd616a79a59941c4fb267c20328b0373, type: 3}
+  prefabs: {fileID: 11400000, guid: 8e0f564af663cb44796f9112b6002aeb, type: 2}
   diceName: {fileID: 5750020789385176851}
   spawnDelay: 0
-  condtion: {fileID: 1901423868005084174}
 --- !u!1 &8057572947931035539
 GameObject:
   m_ObjectHideFlags: 0
