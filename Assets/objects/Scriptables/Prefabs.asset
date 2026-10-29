@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3991ab8f42ae7db47bf59ca9cbe1215b, type: 3}
   m_Name: Prefabs
   m_EditorClassIdentifier: Assembly-CSharp::FunctionalScripts
-  prefabs: []
+  prefabs:
+  - {fileID: 5674016411750864829, guid: 48d2371925e967c489227195f342f232, type: 3}
+  - {fileID: 5171484109194321408, guid: a7045b2d36c5fb24c89fb16501276235, type: 3}
+  - {fileID: 3592535956652307143, guid: 7e747e3a07c4f934b8d890c6ee82653a, type: 3}
+  - {fileID: -2134279049025615899, guid: dd616a79a59941c4fb267c20328b0373, type: 3}

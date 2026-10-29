@@ -34,16 +34,16 @@ public class WinCondtion : MonoBehaviour
 
     private void OnEnable()
     {
-        ModelEvents.FinishRoll += ShowResult;
-        ModelEvents.NewRoll += HideResult;
+        Player.Instance.Rolled += ShowResult;
+        Player.Instance.NewRoll += HideResult;
         UIEvents.DiceSpawn += CountPossibles;
         UIEvents.NewRound += OffCondtions;
     }
 
     private void OnDisable()
     {
-        ModelEvents.FinishRoll -= ShowResult;
-        ModelEvents.NewRoll -= HideResult;
+        Player.Instance.Rolled -= ShowResult;
+        Player.Instance.NewRoll -= HideResult;
         UIEvents.DiceSpawn -= CountPossibles;
         UIEvents.NewRound -= OffCondtions;
 

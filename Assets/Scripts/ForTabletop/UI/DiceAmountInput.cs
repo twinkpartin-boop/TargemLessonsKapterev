@@ -24,6 +24,5 @@ public class DiceAmountInput : MonoBehaviour
             UIEvents.RaiseChangeAmount(amount);
         }
         else { inputField.text = "неверный Ввод"; }
-
     }
 }

@@ -13,12 +13,12 @@ public class Player : MonoBehaviour
     public static Player Instance { get { return instance; } }
     public uint PlayerScore { get { return playerScore; } set { playerScore = value; } }
     public uint DiceRolled {  get { return diceRolled; } }
-    public bool IsReadoToCount { get { return Dices.Count == diceRolled; } }
+    public bool IsReadoToCount { get { return Dices.Count == diceRolled && Dices.Count > 0; } }
 
     public List<Dice> Dices_ {  get { return Dices; } }
 
-    //public event Action Rolled;
-    //public event Action NewRoll;
+    public event Action Rolled;
+    public event Action NewRoll;
 
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     {
         if (Instance.IsReadoToCount)
         {
-            ModelEvents.RaiseFinishRoll();
+            Rolled?.Invoke();
         }
     }
 
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
     {
         diceRolled = 0;
         playerScore = 0;
-        ModelEvents.RaiseNewRoll();
+        NewRoll?.Invoke();
     }
 
     public void AddDice(Dice dice)

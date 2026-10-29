@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78cbcca8fbaa3314fb968e65d93a22a9, type: 3}
   m_Name: ThrowPower
   m_EditorClassIdentifier: Assembly-CSharp::ThrowPower
-  maxFy: 0
-  maxRx: 0
-  maxRy: 0
-  maxRz: 0
+  maxFy: 500
+  maxRx: 50
+  maxRy: 50
+  maxRz: 50

@@ -54,16 +54,16 @@ public class SpawnDiceButton : MonoBehaviour
 
     private void OnEnable()
     {
-        ModelEvents.NewRoll += Deactivate;
-        ModelEvents.FinishRoll += Activate;
+        Player.Instance.NewRoll += Deactivate;
+        Player.Instance.Rolled += Activate;
         UIEvents.ChangeAmount += ChangeAmount;
         UIEvents.TypeChanged += ChangeType;
     }
 
     private void OnDisable()
     {
-        ModelEvents.NewRoll -= Deactivate;
-        ModelEvents.FinishRoll -= Activate;
+        Player.Instance.NewRoll -= Deactivate;
+        Player.Instance.Rolled -= Activate;
         UIEvents.ChangeAmount -= ChangeAmount;
         UIEvents.TypeChanged -= ChangeType;
     }

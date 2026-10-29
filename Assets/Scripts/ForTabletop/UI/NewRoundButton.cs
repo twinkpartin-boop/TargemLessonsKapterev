@@ -2,9 +2,11 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 [RequireComponent(typeof(Button))]
 public class NewRoundButton : MonoBehaviour
 {
+
     [SerializeField] private Button button;
     private void Awake()
     {
@@ -14,14 +16,14 @@ public class NewRoundButton : MonoBehaviour
 
     private void OnEnable()
     {
-        ModelEvents.FinishRoll += Activate;
-        ModelEvents.NewRoll += Deactivate;
+        Player.Instance.Rolled += Activate;
+        Player.Instance.NewRoll += Deactivate;
     }
 
     private void OnDisable()
     {
-        ModelEvents.FinishRoll -= Activate;
-        ModelEvents.NewRoll -= Deactivate;
+        Player.Instance.Rolled -= Activate;
+        Player.Instance.NewRoll -= Deactivate;
     }
 
     private void NewRound()

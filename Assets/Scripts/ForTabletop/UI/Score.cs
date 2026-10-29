@@ -13,15 +13,15 @@ public class Score : MonoBehaviour
 
     private void OnEnable()
     {
-        ModelEvents.FinishRoll += UpdateScore;
-        ModelEvents.NewRoll += UpdateScore;
+        Player.Instance.Rolled += UpdateScore;
+        Player.Instance.NewRoll += UpdateScore;
         UIEvents.NewRound += UpdateScore;
     }
 
     private void OnDisable()
     {
-        ModelEvents.FinishRoll -= UpdateScore;
-        ModelEvents.NewRoll -= UpdateScore;
+        Player.Instance.Rolled -= UpdateScore;
+        Player.Instance.NewRoll -= UpdateScore;
         UIEvents.NewRound -= UpdateScore;
     }
 
